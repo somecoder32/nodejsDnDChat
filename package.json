@@ -1,0 +1,15 @@
+{
+  "name": "dndchat",
+  "version": "1.0.0",
+  "description": "Socket.io chat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason B",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.1"
+  }
+}
