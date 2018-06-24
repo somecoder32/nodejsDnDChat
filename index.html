@@ -1,32 +1,49 @@
 <!doctype html>
 <html>
   <head>
+        <meta charset="utf-8">
     <title>Socket.IO chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #buttonRow {background: #000; padding: 3px; position: fixed; bottom: 40px; width: 100%; }
+      #btnrow { margin-bottom: 10px; }
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }      
-      #messageBox { overflow-y: scroll; position: fixed; bottom: 80px; width: 100%; max-height: 90%; }
+      /* button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }       */
+      #messageBox { overflow-y: scroll; position: fixed; bottom: 110px; width: 100%; max-height: 85%; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   </head>
   <body style="height: 100%;">
     <div id="messageBox">
         <ul id="messages"></ul>
     </div>
-    <div id="buttonRow">
-            <button id="d100btn" name="100">d100</button>&nbsp;<button id="d20btn" name="20">d20</button>&nbsp;<button id="d10btn" name="12">d12</button>&nbsp;<button id="d10btn" name="10">d10</button>&nbsp;<button id="d8btn" name="8">d8</button>&nbsp;<button id="d6btn" name="6">d6</button>&nbsp;<button id="d4btn" name="4">d4</button>
+    <div class="d-flex justify-content-center">
+        <div class="btn-group" id="btnrow"  role="group" aria-label="Button Row" style="position: fixed; bottom: 60px;">
+                <button id="d100btn" name="100" class="btn btn-secondary">d100</button>
+                <button id="d20btn" name="20"class="btn btn-secondary">d20</button>
+                <button id="d10btn" name="12" class="btn btn-secondary">d12</button>
+                <button id="d10btn" name="10"class="btn btn-secondary">d10</button>
+                <button id="d8btn" name="8" class="btn btn-secondary">d8</button>
+                <button id="d6btn" name="6" class="btn btn-secondary">d6</button>
+                <button id="d4btn" name="4" class="btn btn-secondary">d4</button>
+        </div>
+    </div>     
+    <form action="">  
+    <div class="input-group mb-3">
+      <input id="m" type="text" autocomplete="off" class="form-control" /><button class="btn btn-primary">Send</button>
     </div>
-    <form action="">      
-      <input id="m" type="text" autocomplete="off" /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
     <script>
         var user = "";
 
