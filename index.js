@@ -23,11 +23,13 @@ io.on('connection', function(socket){
             if(isNum){
                 var rolls = roll(isNum, die);
                 var total = 0;
+                var builtMsg = 'Rolls ' + isNum + ' d' + die + 's ';
 
                 for(var i = 0; i < rolls.length; i++){
-                    io.emit('chat message', msg.split(" ")[0] + 'Rolls a d' + die + ' for ' +  rolls[i]);
+                    builtMsg = builtMsg + rolls[i] + ', ' ;
                     total = total + rolls[i];
                 }
+                io.emit('chat message', msg.split(" ")[0] + builtMsg);
                 io.emit('chat message', msg.split(" ")[0] + 'Total = ' + total);
             }
             else {
