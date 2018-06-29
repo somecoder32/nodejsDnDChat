@@ -1,12 +1,24 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var fs = require('fs');
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
+    var spells = JSON.parse(fs.readFileSync('spells.json', 'utf8'));
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
+});
+
+
+app.get('/spells', function(req, res){   
+    //spells.filter(x => x[req.query.className] === req.query.lvl).map(x => console.log(x.name));
+    var spellFound = [];
+    spells.filter(x => x[req.query.className] === req.query.lvl).map(x => spellFound.push(x.name));
+    spellFound.sort();
+    res.end(JSON.stringify(spellFound));
 });
 
 io.on('connection', function(socket){
