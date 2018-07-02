@@ -16,7 +16,7 @@ app.get('/', function(req, res){
 app.get('/spells', function(req, res){   
     //spells.filter(x => x[req.query.className] === req.query.lvl).map(x => console.log(x.name));
     var spellFound = [];
-    spells.filter(x => x[req.query.className] === req.query.lvl).map(x => spellFound.push(x.name));
+    spells.filter(x => x[req.query.className] === req.query.lvl).map(x => spellFound.push({'name':x.name, 'range':x.range, 'description':x.description, 'area':x.area, 'targets':x.targets, 'duration':x.duration}));
     spellFound.sort();
     res.end(JSON.stringify(spellFound));
 });
@@ -29,6 +29,7 @@ io.on('connection', function(socket){
     socket.on('chat message', function(msg, die){     
         
         var endMsg = msg.split(" ")[1];
+       
         var isNum = parseInt(endMsg, 10);
 
         if(die){                       

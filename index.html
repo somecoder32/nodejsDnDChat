@@ -189,8 +189,14 @@
             return false;
           });
 
-          socket.on('chat message', function(msg){            
-            $('#messages').append($('<li>').text(msg));
+          socket.on('chat message', function(msg){          
+            if(msg.indexOf('div') > -1){
+              $('#messages').append(msg);
+            } 
+            else{
+              $('#messages').append($('<li>').text(msg));
+            } 
+            
             scrollMessages();
           });
         });
@@ -253,6 +259,9 @@
 
   <!-- End Model -->
       <script>
+        var spells = [];
+
+
         function setSpellLevels(){
           if(document.getElementsByClassName('spellLevelPick')){
             var allDropItems = [];
@@ -270,17 +279,41 @@
           
           $.get("/spells", {lvl, className})
             .done(function(data){ 
-              var spells = JSON.parse(data);           
+              spells = JSON.parse(data);           
               $('#spellList').html('');
-              spells.map(x => $('#spellList').append('<li class="list-group-item" onclick="castSpell(\'' + x + '\')">' + x + '</li>'));
+              var i = 0;
+              spells.map(x => {                
+                 $('#spellList').append('<li class="list-group-item" onclick="castSpell(' + i + ')">' + x.name + '</li>');
+                 i++;
+              });
               $('#spellListModal').modal();
           });
         }
         
-        function castSpell(name){
-          socket.emit('chat message', user + ': I cast ' + name + '!');
+        function castSpell(id){          
+          socket.emit('chat message', user );
+          socket.emit('chat message', createCard(spells[id].name , spells[id].range, spells[id].description, spells[id].area, spells[id].targets, spells[id].duration));
             $('#m').val('');
             $('#spellListModal').modal('hide');
+          }
+
+          function createCard(spellName, range, description, area, targets,duration){
+            var card = `<div class="d-flex justify-content-center">
+              <div class="card" style="width: 95%; margin: 6px;">
+              <div class="card-header fa fa-sort" onClick="hideBody(this)">&nbsp;${spellName}</div>
+              <div class="card-body" style="display: none;">                
+                <p class="card-subtitle">Range: ${range}</p>
+                <p class="card-subtitle" style="display: ${(area) ? 'block':'none'};">Area: ${area}</p>
+                <p class="card-subtitle" style="display: ${(targets) ? 'block':'none'};">Targets: ${targets}</p>
+                <p class="card-subtitle" style="display: ${(duration) ? 'block':'none'};">Duration: ${duration}</p>
+                <p class="card-text">${description}</p>
+              </div></div></div>`;
+
+              return card;
+          }
+
+          function hideBody(e){
+            $(e.nextElementSibling).toggle();
           }
       </script>
   </body>
